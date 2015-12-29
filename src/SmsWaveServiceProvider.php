@@ -1,22 +1,20 @@
 <?php
 
-namespace SmsWave;
+namespace Korko\SmsWave;
 
 use Illuminate\Support\ServiceProvider;
 
 class SmsWaveServiceProvider extends ServiceProvider
 {
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/config.php' => config_path('smswave.php'),
-        ]);
-    }
-
     public function register()
     {
         $this->app->singleton('smswave', function () {
-            return new SmsWave(config('smswave.server'));
+            return new SmsWaveLibrary(env('SMSWAVE_SERVER'));
         });
+    }
+
+    public function provides()
+    {
+        return ['smswave'];
     }
 }
